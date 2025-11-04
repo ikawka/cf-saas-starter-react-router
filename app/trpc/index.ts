@@ -7,10 +7,11 @@
  * The pieces you will need to use are documented accordingly near the end
  */
 import { getDb } from "@/db";
-import type { Auth } from "@/auth/server";
+import { createAuth, type Auth } from "@/auth/server";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { z, ZodError } from "zod/v4";
+import type { ExampleWorkflowRequestPayload } from "workflows/example";
 
 /**
  * 1. CONTEXT
@@ -27,25 +28,30 @@ import { z, ZodError } from "zod/v4";
 
 export const createTRPCContext = async (opts: {
   headers: Headers;
-  database: D1Database;
-  auth: Auth;
+  cfContext: Env;
 }) => {
-  const db = await getDb(opts.database);
-  const authApi = opts.auth.api;
-  const auth = await authApi.getSession({
+  const auth = await createAuth(
+    opts.cfContext.DATABASE,
+    opts.cfContext.BETTER_AUTH_SECRET
+  );
+  const db = await getDb(opts.cfContext.DATABASE);
+  const betterAuth = await auth.api.getSession({
     headers: opts.headers,
   });
 
   return {
     headers: opts.headers,
-    authApi,
-    auth: auth
+    authApi: auth.api,
+    auth: betterAuth
       ? {
-          session: auth?.session,
-          user: auth?.user,
+          session: betterAuth?.session,
+          user: betterAuth?.user,
         }
       : null,
     db,
+    workflows: {
+      ExampleWorkflow: opts.cfContext.EXAMPLE_WORKFLOW,
+    },
   };
 };
 /**

@@ -27,8 +27,7 @@ export default {
   async fetch(request, env, ctx) {
     const trpcContext = await createTRPCContext({
       headers: request.headers,
-      database: env.DATABASE,
-      auth: await createAuth(env.DATABASE, env.BETTER_AUTH_SECRET),
+      cfContext: env,
     });
 
     const trpcCaller = createCaller(trpcContext);

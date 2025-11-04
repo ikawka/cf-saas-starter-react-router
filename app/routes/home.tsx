@@ -15,7 +15,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export async function loader({ context }: Route.LoaderArgs) {
-  context.cloudflare.env.EXAMPLE_WORKFLOW.create({
+  const response = await context.cloudflare.env.EXAMPLE_WORKFLOW.create({
     params: {
       email: "test@example.com",
       metadata: {
@@ -23,6 +23,8 @@ export async function loader({ context }: Route.LoaderArgs) {
       },
     }
   });
+
+  console.log(response);
 
   return {
     message: "Cloudflare SaaS Starter",

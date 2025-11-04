@@ -20,13 +20,25 @@ const userRouter = createTRPCRouter({
   deleteUser: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
-      if (ctx.auth.user?.id !== input) {
+      if (ctx.auth.user?.id === input) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "Cannot delete self",
         });
       }
       return ctx.db.delete(user).where(eq(user.id, input));
+    }),
+  createWorkflow: protectedProcedure
+    .input(
+      z.object({
+        email: z.string(),
+        metadata: z.record(z.string(), z.any()),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.workflows.ExampleWorkflow.create({
+        params: input,
+      });
     }),
 });
 

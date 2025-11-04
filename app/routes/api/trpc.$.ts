@@ -4,15 +4,9 @@ import { appRouter } from "@/trpc/router";
 
 import type { Route } from "./+types/trpc.$";
 
-import { createAuth } from "@/auth/server";
 import type { AppLoadContext } from "react-router";
 
 const handler = async (req: Request, context: AppLoadContext) => {
-  const auth = await createAuth(
-    context.cloudflare.env.DATABASE,
-    context.cloudflare.env.BETTER_AUTH_SECRET
-  );
-
   return fetchRequestHandler({
     endpoint: "/api/trpc",
     router: appRouter,
@@ -20,8 +14,7 @@ const handler = async (req: Request, context: AppLoadContext) => {
     createContext: () =>
       createTRPCContext({
         headers: req.headers,
-        database: context.cloudflare.env.DATABASE,
-        auth,
+        cfContext: context.cloudflare.env,
       }),
     onError({ error, path }) {
       console.error(`>>> tRPC Error on '${path}'`, error);
