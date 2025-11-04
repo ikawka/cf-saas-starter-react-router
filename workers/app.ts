@@ -1,7 +1,7 @@
 import { createRequestHandler } from "react-router";
 import { appRouter } from "../app/trpc/router";
 import { createCallerFactory, createTRPCContext } from "../app/trpc";
-import { createAuth } from "@/auth/server";
+import { createAuth, type Auth } from "@/auth/server";
 
 const createCaller = createCallerFactory(appRouter);
 
@@ -12,6 +12,7 @@ declare module "react-router" {
       ctx: ExecutionContext;
     };
     trpc: ReturnType<typeof createCaller>;
+    auth: Auth;
   }
 }
 
@@ -35,6 +36,7 @@ export default {
     return requestHandler(request, {
       cloudflare: { env, ctx },
       trpc: trpcCaller,
+      auth: await createAuth(env.DATABASE, env.BETTER_AUTH_SECRET),
     });
   },
 } satisfies ExportedHandler<Env>;

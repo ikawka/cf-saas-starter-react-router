@@ -1,6 +1,8 @@
 import { user } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from ".";
 import { z } from "zod/v4";
+import { eq } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
 
 const exampleRouter = createTRPCRouter({
   hello: publicProcedure.query(() => {
@@ -13,9 +15,19 @@ const userRouter = createTRPCRouter({
     return await ctx.db.query.user.findMany();
   }),
   getUsersProtected: protectedProcedure.query(async ({ ctx }) => {
-    console.log(ctx.auth);
     return await ctx.db.query.user.findMany();
   }),
+  deleteUser: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.auth.user?.id !== input) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Cannot delete self",
+        });
+      }
+      return ctx.db.delete(user).where(eq(user.id, input));
+    }),
 });
 
 export const appRouter = createTRPCRouter({

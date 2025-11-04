@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout() {
   return (
     <div>
       <Outlet />
