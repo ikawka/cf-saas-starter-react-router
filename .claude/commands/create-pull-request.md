@@ -20,7 +20,7 @@ Read `CLAUDE.md` for the compressed Rules Index. Ensure all touched files comply
 
 For feature PRs, ensure these are updated:
 - [ ] Project documentation updated
-- [ ] `high-level-architecture.md` updated (via /architecture-tracker) - if new routes, features, or schema changes
+- [ ] `docs/architecture/overview.md` updated (via /architecture-tracker) - if new routes, features, or schema changes
 - [ ] Testing plan exists with screenshots
 
 ## Workflow

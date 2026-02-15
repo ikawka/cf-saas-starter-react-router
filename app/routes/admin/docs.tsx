@@ -18,6 +18,8 @@ import {
   IconSearch,
   IconX,
   IconRocket,
+  IconBuildingArch,
+  IconPalette,
 } from "@tabler/icons-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -108,6 +110,8 @@ function TableOfContents({ headings, activeId, onHeadingClick }: TableOfContents
 
 // Categories configuration
 const categories = [
+  { id: "architecture", label: "Architecture", icon: IconBuildingArch },
+  { id: "design", label: "Design", icon: IconPalette },
   { id: "meetings", label: "Meetings", icon: IconCalendarEvent },
   { id: "ideas", label: "Ideas", icon: IconBulb },
   { id: "plans", label: "Plans", icon: IconMap },
@@ -122,6 +126,16 @@ const emptyStateConfig: Record<
   CategoryId,
   { title: string; description: string; icon: React.ComponentType<{ className?: string }> }
 > = {
+  architecture: {
+    title: "No architecture docs yet",
+    description: "Document your system architecture, data flows, and technical decisions here.",
+    icon: IconBuildingArch,
+  },
+  design: {
+    title: "No design system docs yet",
+    description: "Document your design system, color palette, typography, and component guidelines here.",
+    icon: IconPalette,
+  },
   meetings: {
     title: "No meeting notes yet",
     description: "Document your team syncs, stand-ups, and planning sessions here.",
@@ -168,6 +182,8 @@ function parseFilePath(path: string) {
 // Group documents by category
 function getDocumentsByCategory() {
   const docs: Record<CategoryId, Array<{ filename: string; title: string; path: string; content: string }>> = {
+    architecture: [],
+    design: [],
     meetings: [],
     ideas: [],
     plans: [],
@@ -209,7 +225,7 @@ export default function DocsPage() {
     if (cat && categories.some((c) => c.id === cat)) {
       return cat;
     }
-    return "features"; // Default to features (has content)
+    return "architecture"; // Default to architecture
   }, [params.category]);
 
   // Get the current document content

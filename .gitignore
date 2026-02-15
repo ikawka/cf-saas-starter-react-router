@@ -22,3 +22,4 @@ worker-configuration.d.ts
 /playwright-report/
 /playwright/.cache/
 /e2e/**/*.png
+wrangler.jsonc

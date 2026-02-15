@@ -29,7 +29,7 @@ Read `CLAUDE.md` for the compressed Rules Index. When syncing, ensure updates fo
 | Task | Purpose | Output |
 |----------------|---------|--------|
 | Context update | Update technical documentation | Updated project docs |
-| Architecture tracker | Update visual architecture docs | Updated `high-level-architecture.md` |
+| Architecture tracker | Update visual architecture docs | Updated `docs/architecture/overview.md` |
 | DRY audit | Check for DRY violations | DRY compliance report + refactoring |
 | Analytics | Update admin dashboard | New/updated analytics components |
 | Testing | Ensure test coverage | E2E tests + test documentation |
@@ -113,14 +113,31 @@ Recent changes:
 4. If no new analytics needed, report "No analytics updates required"
 ```
 
+**Documentation Sync:**
+```
+Sync .cursor/context/ changes to docs/architecture/:
+
+For each updated .cursor/context/ file, update the corresponding docs/architecture/ file:
+- architecture.md -> docs/architecture/system.md
+- api.md -> docs/architecture/api.md
+- data-models.md -> docs/architecture/data-models.md
+- features.md -> docs/architecture/features.md
+- integrations.md -> docs/architecture/integrations.md
+- security.md -> docs/architecture/security.md
+- user-journeys.md -> docs/architecture/user-journeys.md
+
+If design system changed (app.css, new components):
+- Update docs/design/design-system-overview.md
+```
+
 **Architecture Tracker:**
 ```
-Update high-level architecture document for recent changes:
+Update architecture overview document for recent changes:
 
 Recent changes:
 - {list of changed files}
 
-1. Read .cursor/context/high-level-architecture.md
+1. Read docs/architecture/overview.md
 2. Check app/routes.ts for new routes
 3. Update relevant sections:
    - Route Map diagram (if new routes)
@@ -154,15 +171,17 @@ Recent changes:
 
 ## Decision Matrix
 
-| Change Type | Context Update | Architecture Tracker | DRY Audit | Analytics | Testing |
-|-------------|----------------|---------------------|-----------|-----------|---------|
-| New feature | Required | Required | Required | Check schema | Required |
-| Schema change | Required | Required | Required | Required | Maybe |
-| New routes | Required | Required | Maybe | Skip | Required |
-| UI-only change | Required | Skip | Required | Skip | Required |
-| Bug fix | Maybe | Skip | Skip | Skip | Required |
-| API change | Required | Maybe | Maybe | Maybe | Required |
-| Config change | Required | Skip | Skip | Skip | Skip |
+| Change Type | Context Update | Architecture Tracker | DRY Audit | Analytics | Design System | Testing |
+|-------------|----------------|---------------------|-----------|-----------|---------------|---------|
+| New feature | Required | Required | Required | Check schema | Skip | Required |
+| Schema change | Required | Required | Required | Required | Skip | Maybe |
+| New routes | Required | Required | Maybe | Skip | Skip | Required |
+| UI-only change | Required | Skip | Required | Skip | Maybe | Required |
+| Bug fix | Maybe | Skip | Skip | Skip | Skip | Required |
+| API change | Required | Maybe | Maybe | Maybe | Skip | Required |
+| Config change | Required | Skip | Skip | Skip | Skip | Skip |
+| CSS/theme change | Maybe | Skip | Skip | Skip | Required | Maybe |
+| New components | Maybe | Skip | Maybe | Skip | Required | Maybe |
 
 ---
 
@@ -177,7 +196,7 @@ Review git diff and update project docs with recent changes.
 
 **Architecture only:**
 ```
-Review app/routes.ts and update high-level-architecture.md with any new routes. Add changelog entry.
+Review app/routes.ts and update docs/architecture/overview.md with any new routes. Add changelog entry.
 ```
 
 **DRY audit:**
@@ -236,7 +255,7 @@ Check e2e/ folder against app/routes/ and identify missing test coverage.
 After sync completes, verify:
 
 - [ ] Project documentation reflects current state of codebase
-- [ ] `high-level-architecture.md` has all routes and features
+- [ ] `docs/architecture/overview.md` has all routes and features
 - [ ] Changelog has entry for recent changes
 - [ ] Recent Changes section is up to date
 - [ ] DRY audit passed — no duplicated schemas, UI patterns, or repo logic (run /dry-audit)

@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task
 
 # Architecture Tracker
 
-Maintain the project's living high-level architecture document at `.cursor/context/high-level-architecture.md`.
+Maintain the project's living high-level architecture document at `docs/architecture/overview.md`.
 
 Update context: $ARGUMENTS
 
@@ -21,7 +21,7 @@ Invoke **after** completing:
 
 ## Quick Start
 
-1. **Check the document exists**: `.cursor/context/high-level-architecture.md`
+1. **Check the document exists**: `docs/architecture/overview.md`
 2. **Review recent changes**: What routes, features, or tables were added?
 3. **Update relevant sections**: Route Map, Feature Flows, Data Relationships
 4. **Add changelog entry**: Document what changed with date
@@ -46,7 +46,7 @@ Invoke **after** completing:
 1. Read the feature's architecture doc (if exists):
    docs/features/[feature]-architecture.md
 
-2. Update high-level-architecture.md:
+2. Update docs/architecture/overview.md:
    - Add to Product Overview mindmap
    - Add new routes to Route Map
    - Add row(s) to Information Architecture table
@@ -84,7 +84,7 @@ Invoke **after** completing:
 Use the Task tool to delegate this work:
 
 ```
-Update the high-level architecture document after implementing [feature name].
+Update the architecture overview document (docs/architecture/overview.md) after implementing [feature name].
 
 Changes made:
 - New routes: [list routes]

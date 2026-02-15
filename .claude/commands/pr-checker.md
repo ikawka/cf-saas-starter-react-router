@@ -32,7 +32,7 @@ PR Validation:
 - [ ] 4. Research doc exists (if new user-facing feature)
 - [ ] 5. Feature architecture doc exists (if new feature)
 - [ ] 6. context.md updated (if feature/architecture change)
-- [ ] 7. high-level-architecture.md updated (if new routes/features/schema)
+- [ ] 7. docs/architecture/overview.md updated (if new routes/features/schema)
 - [ ] 8. Testing plan exists
 - [ ] 9. Migrations use /db-migration (if applicable)
 - [ ] 10. Analytics considered (if schema/feature change)
@@ -233,28 +233,28 @@ Add to the `## Recent Changes` section:
 
 ---
 
-## Step 5.5: Check high-level-architecture.md Updates
+## Step 5.5: Check docs/architecture/overview.md Updates
 
 **Required when:** Adding new routes, implementing new features, or making database schema changes.
 
-### Verify high-level-architecture.md
+### Verify docs/architecture/overview.md
 
 ```bash
-# Check if high-level-architecture.md was modified
-git diff main...HEAD --name-only | grep -q "high-level-architecture.md"
+# Check if docs/architecture/overview.md was modified
+git diff main...HEAD --name-only | grep -q "docs/architecture/overview.md"
 
 # Check if new routes were added
 git diff main...HEAD -- app/routes.ts
 ```
 
-**If routes/features/schema changed but high-level-architecture.md is unchanged:**
+**If routes/features/schema changed but docs/architecture/overview.md is unchanged:**
 
 1. Check what needs updating:
    - New routes → Update Route Map diagram + Information Architecture table
    - New features → Add Feature Flow section with Mermaid diagram
    - Schema changes → Update Data Relationships ER diagram
 
-2. **Prompt user:** "high-level-architecture.md needs updating. Run /architecture-tracker to update route maps, feature flows, and add a changelog entry."
+2. **Prompt user:** "docs/architecture/overview.md needs updating. Run /architecture-tracker to update route maps, feature flows, and add a changelog entry."
 
 ### What Should Be Updated
 
@@ -437,7 +437,7 @@ Generate a summary:
 - [pass/fail/N/A] Research doc (`docs/research/{feature}-research.md`) - for user-facing features
 - [pass/fail] Feature architecture doc (`docs/features/{feature}-architecture.md`)
 - [pass/fail] Project docs updated
-- [pass/fail] high-level-architecture.md updated (routes, flows, changelog)
+- [pass/fail] docs/architecture/overview.md updated (routes, flows, changelog)
 - [pass/fail] Testing plan exists (`docs/testing/{feature}/{feature}.md`)
 
 ### Testing
@@ -469,7 +469,7 @@ If checks fail, address the issues first:
 3. Create research doc at `docs/research/{feature}-research.md` (use WebSearch)
 4. Create feature architecture doc at `docs/features/{feature}-architecture.md`
 5. Update project documentation
-6. Update high-level-architecture.md via /architecture-tracker
+6. Update docs/architecture/overview.md via /architecture-tracker
 7. Generate testing plan
 8. Generate migrations with /db-migration
 9. Create analytics dashboards

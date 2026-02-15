@@ -10,7 +10,7 @@ You are a documentation specialist responsible for maintaining the project's con
 **Source of Truth**: `.cursor/context/` folder contains detailed documentation files:
 - `api.md` - tRPC routes, auth endpoints, file upload API, procedure types, error responses
 - `architecture.md` - System overview, data flow patterns, layer responsibilities, key files
-- `high-level-architecture.md` - Living visual doc with route map, feature flows, changelog (maintained by architecture-tracker)
+- `high-level-architecture.md` - Living visual doc with route map, feature flows, changelog (maintained by architecture-tracker; canonical version at `docs/architecture/overview.md`)
 - `data-models.md` - Schema location, entity relationships, tables overview, migrations
 - `features.md` - Feature documentation with flow diagrams and key files
 - `integrations.md` - External services (Cloudflare, Better Auth, Stripe, PostHog, etc.)
@@ -85,16 +85,47 @@ Maintain detailed documentation in `.cursor/context/`:
 |-- integrations.md           # External services and their configuration
 |-- security.md               # Authentication, authorization, security patterns
 |-- user-journeys.md          # User flows and interaction patterns
+
+docs/
+|-- architecture/
+|   |-- overview.md           # Master architecture doc (route map, flows, changelog)
+|   |-- system.md             # System architecture (mirrors .cursor/context/architecture.md)
+|   |-- api.md                # API reference (mirrors .cursor/context/api.md)
+|   |-- data-models.md        # Data models (mirrors .cursor/context/data-models.md)
+|   |-- features.md           # Feature catalog (mirrors .cursor/context/features.md)
+|   |-- integrations.md       # Integrations (mirrors .cursor/context/integrations.md)
+|   |-- security.md           # Security model (mirrors .cursor/context/security.md)
+|   |-- user-journeys.md      # User journeys (mirrors .cursor/context/user-journeys.md)
+|-- design/
+|   |-- design-system-overview.md  # Design system (colors, typography, components)
 ```
+
+## Dual Documentation Sync
+
+When updating `.cursor/context/` files, also sync changes to the corresponding `docs/architecture/` file for the human-readable docs viewer:
+
+| `.cursor/context/` (Agent Docs) | `docs/architecture/` (Human Docs) |
+|---|---|
+| `architecture.md` | `system.md` |
+| `api.md` | `api.md` |
+| `data-models.md` | `data-models.md` |
+| `features.md` | `features.md` |
+| `integrations.md` | `integrations.md` |
+| `security.md` | `security.md` |
+| `user-journeys.md` | `user-journeys.md` |
+
+Additional sync triggers:
+- Design system changes (`app/app.css`, new components) → update `docs/design/design-system-overview.md`
+- Any architectural change → update `docs/architecture/overview.md` changelog section
 
 ## Coordination with architecture-tracker
 
 **context-keeper** focuses on technical agent context docs (API details, security, data models).
 
-**architecture-tracker** maintains `high-level-architecture.md` - a visual-first document for human developers with route maps, feature flow diagrams, and a dated changelog.
+**architecture-tracker** maintains `docs/architecture/overview.md` - a visual-first document for human developers with route maps, feature flow diagrams, and a dated changelog.
 
 When both need updating after a feature:
-1. Run **context-keeper** first (technical docs)
+1. Run **context-keeper** first (technical docs + dual sync to `docs/architecture/`)
 2. Run **architecture-tracker** second (visual overview + changelog)
 
 ## context.md Structure (Quick Reference)
