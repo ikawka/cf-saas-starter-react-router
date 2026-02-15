@@ -6,13 +6,6 @@ import {
   layout,
 } from "@react-router/dev/routes";
 
-// Public/landing pages — SEO-visible, get /:lng prefix variants
-const publicRoutes = [
-  index("routes/home.tsx"),
-  route("/login", "routes/authentication/login.tsx"),
-  route("/sign-up", "routes/authentication/sign-up.tsx"),
-];
-
 export default [
   // API Routes (no locale prefix)
   route("/api/trpc/*", "routes/api/trpc.$.ts"),
@@ -20,10 +13,16 @@ export default [
   route("/api/upload-file", "routes/api/upload-file.ts"),
 
   // Public routes at root (default locale)
-  ...publicRoutes,
+  index("routes/home.tsx"),
+  route("/login", "routes/authentication/login.tsx"),
+  route("/sign-up", "routes/authentication/sign-up.tsx"),
 
   // Public routes with locale prefix (for SEO)
-  ...prefix(":lng", publicRoutes),
+  ...prefix(":lng", [
+    index("routes/home.tsx", { id: "lng-home" }),
+    route("/login", "routes/authentication/login.tsx", { id: "lng-login" }),
+    route("/sign-up", "routes/authentication/sign-up.tsx", { id: "lng-sign-up" }),
+  ]),
 
   // Dashboard routes — auth-protected, client-side i18n only
   ...prefix("dashboard", [

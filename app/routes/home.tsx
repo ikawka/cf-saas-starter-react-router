@@ -4,9 +4,10 @@ import type { Route } from "./+types/home";
 import { authClient } from "@/auth/client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router";
+import { Link, redirect } from "react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const handle = { i18n: ["home"] };
 
@@ -17,7 +18,11 @@ export function meta({ loaderData }: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
+  const session = await context.auth.api.getSession({
+    headers: request.headers,
+  });
+  if (session) return redirect("/dashboard");
   return {
     message: "Cloudflare SaaS Starter",
   };
@@ -27,7 +32,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const { t } = useTranslation("home");
 
   return (
-    <main className="container min-h-screen py-16 mx-auto">
+    <main className="container min-h-screen py-16 mx-auto relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="flex flex-col items-center justify-center gap-8">
         {/* Hero Section */}
         <div className="flex flex-col items-center gap-4 text-center">
